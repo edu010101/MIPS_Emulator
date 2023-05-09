@@ -8,3 +8,7 @@ g++ -std=c++11 -Wall -Wextra -Wpedantic -Werror -o main main.cpp && ./main
 Comando para rodar main com exemplos:
 ./emulador text.bin data.bin > saida.txt
 
+LINKS ÚTEIS
+https://en.wikibooks.org/wiki/MIPS_Assembly/Instruction_Formats
+http://courses.missouristate.edu/kenvollmar/mars/Help/SyscallHelp.html
+
