@@ -1,23 +1,15 @@
 #include <bits/stdc++.h>
+#include "cpu_register.cpp"
 #include "arithmetic_instructions.cpp"
 #include "logic_instructions.cpp"
 #include "shift_instructions.cpp"
 #include "branch_instructions.cpp"
 #include "data_instructions.cpp"
-#include "bin_to_MIPS.cpp"
 using namespace std;
 
-// map that has an int as a key and a function pointer as a value
-map<int, void (*)(int, int, int, cpu_register *, int *)> reg_to_mem_instructions = {
-    {135, lw},
-    {43, lh}, ////??????????????????????////
-    {132, lb},
-    {143, sw},
-    {140, sb},
-    {141, sh}
-};
 
-map<int, void (*)(int, int, int, cpu_register *)> reg_to_reg_instructions = {
+// map that has an int as a key and a function pointer as a value
+map<int, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
     {32, add},
     {108, addi},
     {109, addiu},
@@ -40,16 +32,21 @@ map<int, void (*)(int, int, int, cpu_register *)> reg_to_reg_instructions = {
     {202, jump},
     {16, mfhi},
     {18, mflo},
-    {12, syscall} //////////??????????????????///////////
+    // {12, syscall} //////////??????????????????///////////
 };
-struct cpu_register{
-        string name;
-        int value = 0;
-    };
 
-cpu_register registers[35];
+map<int, void (*)(MIPS_instruction, cpu_register *, int *)> reg_to_mem_instructions = {
+    {135, lw},
+    {43, lh}, ////??????????????????????////
+    {132, lb},
+    {143, sw},
+    {140, sb},
+    {141, sh}
+};
+
+// cpu_register registers[35];
 // register 32 is HI, register 33 is LO, register 34 is PC
-int memory[4 * 4096];
+// int memory[4 * 4096];
 
 class MipsEmulator{
     public:
@@ -61,8 +58,15 @@ class MipsEmulator{
     }
 
     void execute_instruction(MIPS_instruction instruction){
-
-
+        if (reg_to_reg_instructions.find(instruction.instruction_id) != reg_to_reg_instructions.end()){
+            reg_to_reg_instructions[instruction.instruction_id](instruction, registers);
+        }
+        else if (reg_to_mem_instructions.find(instruction.instruction_id) != reg_to_mem_instructions.end()){
+            reg_to_mem_instructions[instruction.instruction_id](instruction, registers, memory);
+        }
+        else{
+            cout << "Instruction not found" << endl;
+        }
     }
 
     void populate_registers(){
@@ -81,5 +85,10 @@ class MipsEmulator{
             }
         }
     }
-}
 
+    void print_registers(){
+        for (int i = 0; i < 35; i++){
+            cout << registers[i].name << ": " << "0x" << setfill('0') << setw(8) << hex << registers[i].value << endl;
+        }
+    }
+};

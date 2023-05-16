@@ -1,32 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct cpu_register{
-        string name;
-        int value = 0;
-    };
-
-void beq(int rs, int rt, int offset, cpu_register *registers){
-    if (registers[rs].value == registers[rt].value){
-        registers[34].value += offset;
+void beq(MIPS_instruction instruction, cpu_register *registers){
+    if (registers[instruction.rs].value == registers[instruction.rt].value){
+        registers[34].value += instruction.imm;
     }
 }
 
-void bne(int rs, int rt, int offset, cpu_register *registers){
-    if (registers[rs].value != registers[rt].value){
-        registers[34].value += offset;
+void bne(MIPS_instruction instruction, cpu_register *registers){
+    if (registers[instruction.rs].value != registers[instruction.rt].value){
+        registers[34].value += instruction.imm;
     }
 }
 
-void jump(int target, cpu_register *registers){
-    registers[34].value = target;
+void jump(MIPS_instruction instruction, cpu_register *registers){
+    registers[34].value = instruction.address;
 }
 
-void jr(int rs, int rt, int rd, cpu_register *registers){
-    registers[34].value = registers[rs].value;
+void jr(MIPS_instruction instruction, cpu_register *registers){
+    registers[34].value = registers[instruction.rs].value;
 }
 
-void jal(int target, cpu_register *registers){
-    registers[31].value = registers[34].value;
-    registers[34].value = target;
+void jal(MIPS_instruction instruction, cpu_register *registers){
+    registers[34].value = instruction.address;
+    registers[31].value = registers[34].value + 4;
 }

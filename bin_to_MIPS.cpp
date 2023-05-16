@@ -14,7 +14,6 @@ struct MIPS_instruction{
 
 MIPS_instruction bin_to_MIPS_R(bitset<32> bin_instruction){
     MIPS_instruction instruction;
-    int rs, rt, rd, shamt, funct;
     instruction.rs = ((bin_instruction << 6) >> 27).to_ulong();
     instruction.rt = ((bin_instruction << 11) >> 27).to_ulong();
     instruction.rd = ((bin_instruction << 16) >> 27).to_ulong();
@@ -26,7 +25,7 @@ MIPS_instruction bin_to_MIPS_R(bitset<32> bin_instruction){
 
 MIPS_instruction bin_to_MIPS_I(bitset<32> bin_instruction){
     MIPS_instruction instruction;
-    int rs, rt, imm, opcode;
+    int opcode;
     // the I instrucrion will have an internal id superior than 100
     opcode = (bin_instruction >> 26).to_ulong();
     instruction.rs = ((bin_instruction << 6) >> 27).to_ulong();
@@ -38,7 +37,7 @@ MIPS_instruction bin_to_MIPS_I(bitset<32> bin_instruction){
 
 MIPS_instruction bin_to_MIPS_J(bitset<32> bin_instruction){
     MIPS_instruction instruction;
-    int address, opcode;
+    int opcode;
     // the J instrucrion will have an internal id superior than 200
     opcode = (bin_instruction >> 26).to_ulong();
     instruction.address = ((bin_instruction << 6) >> 6).to_ulong();

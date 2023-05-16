@@ -1,19 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct cpu_register{
-        string name;
-        int value = 0;
-    };
-
-void sll(int rd, int rt, int shamt, cpu_register *registers){
-    registers[rd].value = registers[rt].value << shamt;
+void sll(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rd].value = registers[instruction.rt].value << instruction.shamt;
 }
 
-void srl(int rd, int rt, int shamt, cpu_register *registers){
-    registers[rd].value = registers[rt].value >> shamt;
+void srl(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rd].value = registers[instruction.rt].value >> instruction.shamt;
 }
 
-void sra(int rd, int rt, int shamt, cpu_register *registers){
-    registers[rd].value = registers[rt].value >> shamt;
+void sra(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rd].value = registers[instruction.rt].value >> instruction.shamt;
+    if (registers[instruction.rt].value & 0x80000000){
+        registers[instruction.rd].value = registers[instruction.rd].value | (0xFFFFFFFF << (32 - instruction.shamt));
+    }
 }

@@ -1,7 +1,7 @@
 Perguntar as flags do g++ para o renanzao
 -------------------------------------------------------------------------------------------------------------------------------------
 Comando para rodar main:
-g++ -std=c++11 -Wall -Wextra -Wpedantic -Werror -o main main.cpp && ./main
+g++ -std=c++11 -Wall -Wextra -Wpedantic -Werror -o main.out main.cpp && ./main.out
 
 Comando para rodar main com exemplos:
 ./emulador text.bin data.bin > saida.txt

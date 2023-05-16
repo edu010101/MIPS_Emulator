@@ -1,41 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct cpu_register{
-        string name;
-        int value = 0;
-    };
-
-void and_(int rd, int rs, int rt, cpu_register *registers){
-    registers[rd].value = registers[rs].value & registers[rt].value;
+void and_(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rd].value = registers[instruction.rs].value & registers[instruction.rt].value;
 }
 
-void andi(int rt, int rs, int imm, cpu_register *registers){
-    registers[rt].value = registers[rs].value & imm;
+void andi(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rt].value = registers[instruction.rs].value & instruction.imm;
 }
 
-void or_(int rd, int rs, int rt, cpu_register *registers){
-    registers[rd].value = registers[rs].value | registers[rt].value;
+void or_(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rd].value = registers[instruction.rs].value | registers[instruction.rt].value;
 }
 
-void ori(int rt, int rs, int imm, cpu_register *registers){
-    registers[rt].value = registers[rs].value | imm;
+void ori(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rt].value = registers[instruction.rs].value | instruction.imm;
 }
 
-void slt(int rd, int rs, int rt, cpu_register *registers){
-    if (registers[rs].value < registers[rt].value){
-        registers[rd].value = 1;
+void slt(MIPS_instruction instruction, cpu_register *registers){
+    if (registers[instruction.rs].value < registers[instruction.rt].value){
+        registers[instruction.rd].value = 1;
     }
     else{
-        registers[rd].value = 0;
+        registers[instruction.rd].value = 0;
     }
 }
 
-void slti(int rt, int rs, int imm, cpu_register *registers){
-    if (registers[rs].value < imm){
-        registers[rt].value = 1;
+void slti(MIPS_instruction instruction, cpu_register *registers){
+    if (registers[instruction.rs].value < instruction.imm){
+        registers[instruction.rt].value = 1;
     }
     else{
-        registers[rt].value = 0;
+        registers[instruction.rt].value = 0;
     }
 }
