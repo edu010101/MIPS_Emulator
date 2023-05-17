@@ -58,15 +58,18 @@ class MipsEmulator{
     }
 
     void execute_instruction(MIPS_instruction instruction){
-        if (reg_to_reg_instructions.find(instruction.instruction_id) != reg_to_reg_instructions.end()){
-            reg_to_reg_instructions[instruction.instruction_id](instruction, registers);
-        }
-        else if (reg_to_mem_instructions.find(instruction.instruction_id) != reg_to_mem_instructions.end()){
+        if (reg_to_mem_instructions.find(instruction.instruction_id) != reg_to_mem_instructions.end()){
             reg_to_mem_instructions[instruction.instruction_id](instruction, registers, memory);
+            registers[34].value = registers[34].value + 4;
+        }
+        else if (reg_to_reg_instructions.find(instruction.instruction_id) != reg_to_reg_instructions.end()){
+            reg_to_reg_instructions[instruction.instruction_id](instruction, registers);
+            registers[34].value = registers[34].value + 4;
         }
         else{
             cout << "Instruction not found" << endl;
         }
+        
     }
 
     void populate_registers(){
