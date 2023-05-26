@@ -5,6 +5,7 @@
 #include "shift_instructions.cpp"
 #include "branch_instructions.cpp"
 #include "data_instructions.cpp"
+#include "syscalls.cpp"
 using namespace std;
 
 
@@ -50,26 +51,56 @@ map<int, void (*)(MIPS_instruction, cpu_register *, int *)> reg_to_mem_instructi
 
 class MipsEmulator{
     public:
-        int memory[4 * 4096];
+        int8_t memory[4 * 4096];
         cpu_register registers[35];
+        bitset<32> current_binary_instruction;
+        MIPS_instruction MIPS_current_instruction;
 
-    MipsEmulator(){
+    MipsEmulator(FILE *program_file, FILE *data_file){
         populate_registers();
+        load_data_in_memory(data_file);
+        load_instructions_in_memory(program_file);
     }
+
+    void run_program(){    
+        while (registers[34].value < get_file_size(program_file)){
+            current_binary_instruction = get_instruction_from_memory(registers[34].value);
+            MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
+            execute_instruction(MIPS_current_instruction);
+            registers[34].value += 4;
+        }
+    }
+
+    bitset<32> get_instruction_from_memory(int address){
+        bitset<32> instruction;
+        instruction[0] = memory[address];
+        instruction[1] = memory[address + 1];
+        instruction[2] = memory[address + 2];
+        instruction[3] = memory[address + 3];
+    
+        return instruction;
+    }
+
 
     void execute_instruction(MIPS_instruction instruction){
         if (reg_to_mem_instructions.find(instruction.instruction_id) != reg_to_mem_instructions.end()){
             reg_to_mem_instructions[instruction.instruction_id](instruction, registers, memory);
-            registers[34].value = registers[34].value + 4;
         }
         else if (reg_to_reg_instructions.find(instruction.instruction_id) != reg_to_reg_instructions.end()){
-            reg_to_reg_instructions[instruction.instruction_id](instruction, registers);
-            registers[34].value = registers[34].value + 4;
+            reg_to_reg_instructions[instruction.instruction_id](instruction, registers); 
         }
         else{
             cout << "Instruction not found" << endl;
         }
         
+    }
+
+    void load_instructions_in_memory(FILE *program_file){
+        fread(&memory[0], sizeof(int8_t), get_file_size(program_file), program_file);
+    }
+
+    void load_data_in_memory(FILE *data_file){
+        fread(&memory[4 * 2048], sizeof(int8_t), get_file_size(data_file), data_file);
     }
 
     void populate_registers(){
@@ -93,5 +124,12 @@ class MipsEmulator{
         for (int i = 0; i < 35; i++){
             cout << registers[i].name << ": " << "0x" << setfill('0') << setw(8) << hex << registers[i].value << endl;
         }
+    }
+
+    static long int get_file_size(FILE *file){
+        fseek(file, 0L, SEEK_END);
+        long int sz = ftell(file);
+        fseek(file, 0, SEEK_SET);
+        return sz;
     }
 };
