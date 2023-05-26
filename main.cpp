@@ -1,36 +1,36 @@
 #include <bits/stdc++.h>
 #include "bin_to_MIPS.cpp"
-#include "emulator.cpp"
+#include "emulator.cpp" 
 using namespace std;
 
 int main()
 {
-    FILE *fp = fopen("mips1.bin", "rb");
+    FILE *file = fopen("mips1.bin", "rb");
     bitset<32> current_instruction;
     MIPS_instruction MIPS_current_instruction;
     MipsEmulator emulator;
 
-    if (fp == NULL)
+    if (file == NULL)
     {
-        cout << "Ihhh, deu erro.\n";
+        cout << "Deu erro.\n";
         return 1;
     }
     
-    fseek(fp, 0L, SEEK_END);
-    long int sz = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
+    fseek(file, 0L, SEEK_END);
+    long int sz = ftell(file);
+    fseek(file, 0, SEEK_SET);
 
     long int num_instructions = sz / 4;
     
     for (int i = 0; i < num_instructions; i++) {
-        fread(&current_instruction, sizeof(int32_t), 1, fp);
+        fread(&current_instruction, sizeof(int32_t), 1, file);
         MIPS_current_instruction = bin_to_MIPS(current_instruction);
         
         emulator.execute_instruction(MIPS_current_instruction);
     }
     emulator.print_registers();
     
-    fclose(fp);
+    fclose(file);
 
     return 0;
 }

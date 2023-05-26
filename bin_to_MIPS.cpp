@@ -75,3 +75,4 @@ MIPS_instruction bin_to_MIPS(bitset<32> bin_instruction){
     }
     return instruction;
 }
+ 
