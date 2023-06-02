@@ -16,7 +16,7 @@ void syscall(int syscall_number, cpu_register *registers){
         cin >> string;
     }
     else if (syscall_number == 10){
-        exit(0);
+        registers[34].value = -1000;
     }
     else if (syscall_number == 11){
         cout << (char) registers[4].value;
@@ -26,49 +26,13 @@ void syscall(int syscall_number, cpu_register *registers){
         cin >> character;
         registers[2].value = character;
     }
-    else if (syscall_number == 13){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 14){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 17){
-        exit(registers[4].value);
-    }
     else if (syscall_number == 34){
-        cout << registers[4].value;
+        cout << hex << registers[4].value;
     }
     else if (syscall_number == 35){
-        cout << registers[4].value;
+        cout << bitset<32>(registers[4].value);
     }
     else if (syscall_number == 36){
-        cout << registers[4].value;
+        cout << unsigned(registers[4].value);
     }
-    else if (syscall_number == 37){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 38){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 39){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 40){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 41){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 42){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 43){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 44){
-        cout << registers[4].value;
-    }
-    else if (syscall_number == 45){
-        cout << registers[4].value;
-    }
-    else
+}   

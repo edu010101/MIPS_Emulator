@@ -63,7 +63,7 @@ class MipsEmulator{
     }
 
     void run_program(){    
-        while (registers[34].value < get_file_size(program_file)){
+        while (registers[34].value > 0){
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
             execute_instruction(MIPS_current_instruction);
