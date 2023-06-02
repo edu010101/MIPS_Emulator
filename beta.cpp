@@ -4,7 +4,7 @@
 #include <string>
 int main()
 {
-    FILE *f = fopen("mips1.bin", "rb");
+    FILE *f = fopen("text1.bin", "rb");
     int8_t byte = 0;
     int8_t memoria[4096*4] = {0};
     size_t fileSize = 0;
@@ -21,7 +21,7 @@ int main()
 
     fread(&memoria[0], 1, fileSize, f);
     
-    for (int i = 0; i < 4096*4; i++) {
+    for (int i = 0; i < 128*4; i++) {
         // if (i <= 10){
         printf("%hhx %hhx %hhx %hhx\n", memoria[i], memoria[i+1], memoria[i+2], memoria[i+3]);
         // }

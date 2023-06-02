@@ -5,32 +5,23 @@ using namespace std;
 
 int main()
 {
-    FILE *file = fopen("mips1.bin", "rb");
+    FILE *text_file = fopen("text1.bin", "rb");
+    FILE *data_file = fopen("data1.bin", "rb");
     bitset<32> current_instruction;
     MIPS_instruction MIPS_current_instruction;
-    MipsEmulator emulator;
 
-    if (file == NULL)
-    {
+    if (text_file == NULL || data_file == NULL) {
         cout << "Deu erro.\n";
         return 1;
     }
-    
-    fseek(file, 0L, SEEK_END);
-    long int sz = ftell(file);
-    fseek(file, 0, SEEK_SET);
 
-    long int num_instructions = sz / 4;
+    MipsEmulator emulator(text_file, data_file);
+
+    emulator.run_program();
+
+    // emulator.get_instruction_from_memory(45);
     
-    for (int i = 0; i < num_instructions; i++) {
-        fread(&current_instruction, sizeof(int32_t), 1, file);
-        MIPS_current_instruction = bin_to_MIPS(current_instruction);
-        
-        emulator.execute_instruction(MIPS_current_instruction);
-    }
-    emulator.print_registers();
-    
-    fclose(file);
+    // emulator.print_registers();
 
     return 0;
 }

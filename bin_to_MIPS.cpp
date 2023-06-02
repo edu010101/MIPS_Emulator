@@ -28,6 +28,7 @@ MIPS_instruction bin_to_MIPS_I(bitset<32> bin_instruction){
     int opcode;
     // the I instrucrion will have an internal id superior than 100
     opcode = (bin_instruction >> 26).to_ulong();
+    printf("Immedate instruction Opcode = %d\n", opcode);
     instruction.rs = ((bin_instruction << 6) >> 27).to_ulong();
     instruction.rt = ((bin_instruction << 11) >> 27).to_ulong();
     instruction.imm = ((bin_instruction << 16) >> 16).to_ulong();
@@ -65,14 +66,18 @@ MIPS_instruction bin_to_MIPS(bitset<32> bin_instruction){
     MIPS_instruction instruction;
     char instruction_type = find_instruction_type(bin_instruction);
     if (instruction_type == 'R'){
+        printf("register_instruction\n");
         instruction = bin_to_MIPS_R(bin_instruction);
     }
     else if (instruction_type == 'I'){
+        printf("imediate_instruction\n");
         instruction = bin_to_MIPS_I(bin_instruction);
     }
     else if (instruction_type == 'J'){
+        printf("jump_instruction\n");
         instruction = bin_to_MIPS_J(bin_instruction);
     }
+    printf("instruction_id = %d\n", instruction.instruction_id);
     return instruction;
 }
  

@@ -1,11 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void lw(MIPS_instruction instruction, cpu_register *registers, int *memory){
+void lw(MIPS_instruction instruction, cpu_register *registers, int8_t *memory){
     registers[instruction.rt].value = memory[registers[instruction.rs].value + instruction.imm];
 }
 
-void lh(MIPS_instruction instruction, cpu_register *registers, int *memory){
+void lh(MIPS_instruction instruction, cpu_register *registers, int8_t *memory){
     registers[instruction.rt].value = memory[registers[instruction.rs].value + instruction.imm];
     registers[instruction.rt].value = registers[instruction.rt].value & 0xFFFF;
     if (registers[instruction.rt].value & 0x8000){
@@ -13,7 +13,7 @@ void lh(MIPS_instruction instruction, cpu_register *registers, int *memory){
     }
 }
 
-void lb(MIPS_instruction instruction, cpu_register *registers, int *memory){
+void lb(MIPS_instruction instruction, cpu_register *registers, int8_t *memory){
     registers[instruction.rt].value = memory[registers[instruction.rs].value + instruction.imm];
     registers[instruction.rt].value = registers[instruction.rt].value & 0xFF;
     if (registers[instruction.rt].value & 0x80){
@@ -21,15 +21,15 @@ void lb(MIPS_instruction instruction, cpu_register *registers, int *memory){
     }
 }
 
-void sw(MIPS_instruction instruction, cpu_register *registers, int *memory){
+void sw(MIPS_instruction instruction, cpu_register *registers, int8_t *memory){
     memory[registers[instruction.rs].value + instruction.imm] = registers[instruction.rt].value;
 }
 
-void sh(MIPS_instruction instruction, cpu_register *registers, int *memory){
+void sh(MIPS_instruction instruction, cpu_register *registers, int8_t *memory){
     memory[registers[instruction.rs].value + instruction.imm] = registers[instruction.rt].value & 0xFFFF;
 }
 
-void sb(MIPS_instruction instruction, cpu_register *registers, int *memory){
+void sb(MIPS_instruction instruction, cpu_register *registers, int8_t *memory){
     memory[registers[instruction.rs].value + instruction.imm] = registers[instruction.rt].value & 0xFF;
 }
 

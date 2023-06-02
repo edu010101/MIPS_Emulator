@@ -1,16 +1,17 @@
 #include <bits/stdc++.h>
 #include "cpu_register.cpp"
+#include "syscalls.cpp"
 #include "arithmetic_instructions.cpp"
 #include "logic_instructions.cpp"
 #include "shift_instructions.cpp"
 #include "branch_instructions.cpp"
 #include "data_instructions.cpp"
-#include "syscalls.cpp"
+
 using namespace std;
 
 
 // map that has an int as a key and a function pointer as a value
-map<int, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
+map<int8_t, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
     {32, add},
     {108, addi},
     {109, addiu},
@@ -20,6 +21,7 @@ map<int, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
     {36, and_},
     {112, andi},
     {37, or_},
+    {115, lui},
     {113, ori},
     {42, slt},
     {110, slti},
@@ -33,10 +35,10 @@ map<int, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
     {202, jump},
     {16, mfhi},
     {18, mflo},
-    // {12, syscall} //////////??????????????????///////////
+    // {12, syscal} 
 };
 
-map<int, void (*)(MIPS_instruction, cpu_register *, int *)> reg_to_mem_instructions = {
+map<int8_t, void (*)(MIPS_instruction, cpu_register *, int8_t *)> reg_to_mem_instructions = {
     {135, lw},
     {43, lh}, ////??????????????????????////
     {132, lb},
@@ -63,9 +65,11 @@ class MipsEmulator{
     }
 
     void run_program(){    
-        while (registers[34].value > 0){
+        while (registers[34].value < 100){
+            printf("PC: %d\n", registers[34].value);
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
+            printf("intrucao[%d]= %d\n", registers[34].value, MIPS_current_instruction.instruction_id);
             execute_instruction(MIPS_current_instruction);
             registers[34].value += 4;
         }
@@ -73,10 +77,10 @@ class MipsEmulator{
 
     bitset<32> get_instruction_from_memory(int address){
         bitset<32> instruction;
-        instruction[0] = memory[address];
-        instruction[1] = memory[address + 1];
-        instruction[2] = memory[address + 2];
-        instruction[3] = memory[address + 3];
+        int32_t ins;
+        ins = memory[address] | (memory[address + 1] << 8) | (memory[address + 2] << 16) | (memory[address + 3] << 24);
+        instruction = ins;
+        cout << instruction << endl;
     
         return instruction;
     }
@@ -107,15 +111,19 @@ class MipsEmulator{
         for (int i = 0; i < 35; i++){
             if (i < 32){
                 registers[i].name = "R" + to_string(i);
+                registers[i].value = 0;
             }
             else if (i == 32){
                 registers[i].name = "HI";
+                registers[i].value = 0;
             }
             else if (i == 33){
                 registers[i].name = "LO";
+                registers[i].value = 0;
             }
             else if (i == 34){
                 registers[i].name = "PC";
+                registers[i].value = 0;
             }
         }
     }
@@ -130,6 +138,15 @@ class MipsEmulator{
         fseek(file, 0L, SEEK_END);
         long int sz = ftell(file);
         fseek(file, 0, SEEK_SET);
+
+        // fclose(file);
         return sz;
+    }
+
+    void print_memory(){
+        for (int i = 0; i < 4 * 32; i+=4){
+            printf("%hhx %hhx %hhx %hhx\n", memory[i], memory[i+1], memory[i+2], memory[i+3]);
+        }
+        
     }
 };

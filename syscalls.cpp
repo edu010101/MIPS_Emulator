@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void syscall(int syscall_number, cpu_register *registers){
+void syscal(int syscall_number, cpu_register *registers){
     if (syscall_number == 1){
         cout << registers[4].value;
     }
