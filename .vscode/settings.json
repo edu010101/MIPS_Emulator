@@ -3,6 +3,8 @@
         "bitset": "cpp",
         "limits": "cpp",
         "string": "cpp",
-        "iostream": "cpp"
-    }
+        "iostream": "cpp",
+        "ostream": "cpp"
+    },
+    "liveServer.settings.port": 5501
 }

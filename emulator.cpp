@@ -65,11 +65,10 @@ class MipsEmulator{
     }
 
     void run_program(){    
-        while (registers[34].value < 100){
+        while (registers[34].value < 20){
             printf("PC: %d\n", registers[34].value);
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
-            printf("intrucao[%d]= %d\n", registers[34].value, MIPS_current_instruction.instruction_id);
             execute_instruction(MIPS_current_instruction);
             registers[34].value += 4;
         }
@@ -77,11 +76,14 @@ class MipsEmulator{
 
     bitset<32> get_instruction_from_memory(int address){
         bitset<32> instruction;
-        int32_t ins;
-        ins = memory[address] | (memory[address + 1] << 8) | (memory[address + 2] << 16) | (memory[address + 3] << 24);
-        instruction = ins;
-        cout << instruction << endl;
-    
+         
+        uint8_t byte1 = memory[address];
+        uint8_t byte2 = memory[address+1];
+        uint8_t byte3 = memory[address+2];
+        uint8_t byte4 = memory[address+3];
+
+        instruction = (byte4 << 24) | (byte3 << 16) | (byte2 << 8) | byte1;
+        
         return instruction;
     }
 
