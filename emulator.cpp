@@ -35,7 +35,7 @@ map<int8_t, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions 
     {202, jump},
     {16, mfhi},
     {18, mflo},
-    // {12, syscal} 
+    {12, syscal} 
 };
 
 map<int8_t, void (*)(MIPS_instruction, cpu_register *, int8_t *)> reg_to_mem_instructions = {
@@ -65,7 +65,7 @@ class MipsEmulator{
     }
 
     void run_program(){    
-        while (registers[34].value < 20){
+        while (registers[2].value != 10){
             printf("PC: %d\n", registers[34].value);
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);

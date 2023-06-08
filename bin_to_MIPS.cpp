@@ -58,6 +58,7 @@ char find_instruction_type(bitset<32> bin_instruction){
     else{
         instruction_type = 'I';
     }
+    cout << "Instruction Type: " << instruction_type << "\n";
     return instruction_type;
 }
 
