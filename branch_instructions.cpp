@@ -14,7 +14,6 @@ void bne(MIPS_instruction instruction, cpu_register *registers){
 }
 
 void jump(MIPS_instruction instruction, cpu_register *registers){
-    cout << "jumping to " << instruction.address * 4 << "\n";
     registers[34].value = (instruction.address * 4) - 4;
 }
 

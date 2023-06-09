@@ -13,6 +13,9 @@ void addi(MIPS_instruction instruction, cpu_register *registers){
 void addiu(MIPS_instruction instruction, cpu_register *registers){
     registers[instruction.rt].value = registers[instruction.rs].value + instruction.imm;
 }
+void addu(MIPS_instruction instruction, cpu_register *registers){
+    registers[instruction.rd].value = registers[instruction.rs].value + registers[instruction.rt].value;
+}
 
 void sub(MIPS_instruction instruction, cpu_register *registers){
     registers[instruction.rd].value = registers[instruction.rs].value - registers[instruction.rt].value;

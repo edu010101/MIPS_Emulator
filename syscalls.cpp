@@ -2,14 +2,14 @@
 using namespace std;
 
 void syscal(MIPS_instruction instruction, cpu_register *registers){
-    
+    // cout << "CHAMOU SYCALL: " << int(registers[4].value) << " v0: " << registers[2].value << " $t5: " << registers[13].value << endl;
+
     if (registers[2].value == 1){
-        cout << registers[4].value;
+        cout << int(registers[4].value);
     }
     else if (registers[2].value == 4){
-        cout << "CHAMOU SYCALL: " << registers[4].value << " v0: " << registers[2].value << endl;
         // cout << (char *) &memory[registers[4].value] << endl;
-        cout << memory[registers[4].value] << endl;
+        cout << memory[registers[4].value];
     }
     else if (registers[2].value == 5){
         cin >> registers[2].value;

@@ -22,6 +22,7 @@ int main()
     // emulator.get_instruction_from_memory(45);
     
     emulator.print_registers();
+    emulator.print_memory();
 
     return 0;
 }

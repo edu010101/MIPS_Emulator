@@ -44,7 +44,7 @@ MIPS_instruction bin_to_MIPS_J(bitset<32> bin_instruction){
     // convert the adress to a signed int (the address is a 26 bit number)
     instruction.address = static_cast<int>(((bin_instruction << 6) >> 6).to_ulong());
     instruction.instruction_id = opcode + 200;
-    cout << "address: " << instruction.address << "\n";
+    // cout << "address: " << instruction.address << "\n";
     return instruction;
 }
 
@@ -61,7 +61,7 @@ char find_instruction_type(bitset<32> bin_instruction){
     else{
         instruction_type = 'I';
     }
-    cout << "Instruction Type: " << instruction_type << "\n";
+    // cout << "Instruction Type: " << instruction_type << "\n";
     return instruction_type;
 }
 
@@ -77,7 +77,7 @@ MIPS_instruction bin_to_MIPS(bitset<32> bin_instruction){
     else if (instruction_type == 'J'){
         instruction = bin_to_MIPS_J(bin_instruction);
     }
-    printf("instruction_id = %d\n", instruction.instruction_id);
+    // printf("instruction_id = %d\n", instruction.instruction_id);
    
     return instruction;
 }

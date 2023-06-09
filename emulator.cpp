@@ -14,6 +14,7 @@ map<int8_t, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions 
     {108, addi},
     {109, addiu},
     {34, sub},
+    {33, addu},
     {26, mdiv},
     {24, mult},
     {36, and_},
@@ -60,11 +61,19 @@ class MipsEmulator{
 
     void run_program(){    
         while (registers[2].value != 10 && registers[34].value < 4 * 4096){
-            printf("PC: %d\n", registers[34].value);
+            // printf("PC: %d\n", registers[34].value);
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
             execute_instruction(MIPS_current_instruction);
             registers[34].value += 4;
+
+            // cout << "Instruction Rs: " << MIPS_current_instruction.rs << " " << registers[MIPS_current_instruction.rs].value << endl;
+            // cout << "Instruction Rt: " << MIPS_current_instruction.rt << " " << registers[MIPS_current_instruction.rt].value << endl;
+            // cout << "Instruction Rd: " << MIPS_current_instruction.rd << " " <<registers[MIPS_current_instruction.rd].value << endl;
+            // cout << "Instruction Shamt: " << MIPS_current_instruction.shamt << endl;
+            // cout << "Instruction Imm: " << MIPS_current_instruction.imm << endl;
+            // cout << "Instruction Address: " << MIPS_current_instruction.address << endl;
+            
         }
         registers[34].value +=4; //We do this because the while loop will stop when the PC is at the last instruction, so we need to increment it one more time
     }
@@ -104,29 +113,29 @@ class MipsEmulator{
 
     void populate_registers(){
         for (int i = 0; i < 35; i++){
-            if (i < 32){
-                registers[i].name = "R" + to_string(i);
-                registers[i].value = 0;
-            }
-            else if (i == 32){
-                registers[i].name = "HI";
-                registers[i].value = 0;
-            }
-            else if (i == 33){
-                registers[i].name = "LO";
-                registers[i].value = 0;
-            }
-            else if (i == 34){
-                registers[i].name = "PC";
-                registers[i].value = 0;
-            }
+            
+            registers[i].name = "$" + to_string(i);
+            registers[i].value = 0;
+            
+            // else if (i == 32){
+            //     registers[i].name = "HI";
+            //     registers[i].value = 0;
+            // }
+            // else if (i == 33){
+            //     registers[i].name = "LO";
+            //     registers[i].value = 0;
+            // }
+            // else if (i == 34){
+            //     registers[i].name = "PC";
+            //     registers[i].value = 0;
+            // }
         }
         registers[-1].value = 0;
     }
     
     void print_registers(){
-        for (int i = 0; i < 35; i++){
-            cout << registers[i].name << ": " << "0x" << setfill('0') << setw(8) << hex << registers[i].value << endl;
+        for (int i = 0; i < 32; i++){
+            cout << registers[i].name << "\t" << "0x" << setfill('0') << setw(8) << hex << registers[i].value << endl;
         }
     }
 
@@ -138,8 +147,16 @@ class MipsEmulator{
     }
 
     void print_memory(){
-        for (int i = 0; i < 4 * 32; i+=4){
-            printf("%hhx %hhx %hhx %hhx\n", memory[i], memory[i+1], memory[i+2], memory[i+3]);
+        for (int i = 0; i < 4 * 4096; i+=4){
+
+            // make all the hexas printed as 8 digits
+            cout << "Mem[" << setfill('0') << setw(8) << hex << i << "]\t";
+            cout << setfill('0') << setw(2) << hex << int(memory[i]) << "\t";
+            cout << setfill('0') << setw(2) << hex << int(memory[i+1]) << "\t";
+            cout << setfill('0') << setw(2) << hex << int(memory[i+2]) << "\t";
+            cout << setfill('0') << setw(2) << hex << int(memory[i+3]) << "\t";
+            cout << endl;
+            // printf("Mem[0x%08x] 0x%02x \t 0x%02x \t 0x%02x \t 0x%02x\n", i, memory[i], memory[i+1], memory[i+2], memory[i+3]);
         }
         
     }
