@@ -4,7 +4,7 @@ using namespace std;
 
 struct MIPS_instruction{
         int instruction_id; //a internal id that identifies the instruction
-        int rd = -1;
+        int rd = -1 ;
         int rt = -1;
         int rs = -1;
         int shamt = -1;
@@ -30,7 +30,9 @@ MIPS_instruction bin_to_MIPS_I(bitset<32> bin_instruction){
     opcode = (bin_instruction >> 26).to_ulong();
     instruction.rs = ((bin_instruction << 6) >> 27).to_ulong();
     instruction.rt = ((bin_instruction << 11) >> 27).to_ulong();
-    instruction.imm = ((bin_instruction << 16) >> 16).to_ulong();
+    instruction.imm = static_cast<int>(((bin_instruction << 16) >> 16).to_ulong());
+    cout << "imm: " << bin_instruction<< "\n";
+    // instruction.imm = ((bin_instruction << 16) >> 16).to_ulong();
     instruction.instruction_id = opcode + 100;
     return instruction;
 }
@@ -40,8 +42,10 @@ MIPS_instruction bin_to_MIPS_J(bitset<32> bin_instruction){
     int opcode;
     // the J instrucrion will have an internal id superior than 200
     opcode = (bin_instruction >> 26).to_ulong();
-    instruction.address = ((bin_instruction << 6) >> 6).to_ulong();
+    // convert the adress to a signed int (the address is a 26 bit number)
+    instruction.address = static_cast<int>(((bin_instruction << 6) >> 6).to_ulong());
     instruction.instruction_id = opcode + 200;
+    cout << "address: " << instruction.address << "\n";
     return instruction;
 }
 
@@ -75,6 +79,7 @@ MIPS_instruction bin_to_MIPS(bitset<32> bin_instruction){
         instruction = bin_to_MIPS_J(bin_instruction);
     }
     printf("instruction_id = %d\n", instruction.instruction_id);
+   
     return instruction;
 }
  

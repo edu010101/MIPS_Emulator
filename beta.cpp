@@ -31,6 +31,19 @@ int main()
     fclose(f);
     
 
+    int array[9];
+    int size = 9;
+    int temp = 0;
+    for (int i = 0; i < size; i++){
+        for (int j = 0; j < size - 1; j++){
+            if (array[j] > array[j+1]){
+                temp = array[j+1];
+                array[j+1] = array[j];
+                array[j] = temp;
+            }
+        }
+    }
+
     //  OP     RS   RT    IMMEDIATE
     // ,--6-,,-5-,,-5-,,-------16-----, I
     // ,--6-,,-5-,,-5-,,-5-,,-5-,,--6-, R
@@ -52,3 +65,5 @@ int main()
 
     return 0;
 }
+
+// make a bubble sort in c++

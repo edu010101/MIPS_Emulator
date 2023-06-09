@@ -5,8 +5,8 @@ using namespace std;
 
 int main()
 {
-    FILE *text_file = fopen("text1.bin", "rb");
-    FILE *data_file = fopen("data1.bin", "rb");
+    FILE *text_file = fopen("bubble_text.bin", "rb");
+    FILE *data_file = fopen("bubble_data.bin", "rb");
     bitset<32> current_instruction;
     MIPS_instruction MIPS_current_instruction;
 
