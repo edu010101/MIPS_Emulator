@@ -6,9 +6,7 @@
 #include "shift_instructions.cpp"
 #include "branch_instructions.cpp"
 #include "data_instructions.cpp"
-
 using namespace std;
-
 
 // map that has an int as a key and a function pointer as a value
 map<int8_t, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
@@ -47,14 +45,10 @@ map<int8_t, void (*)(MIPS_instruction, cpu_register *, int8_t *)> reg_to_mem_ins
     {141, sh}
 };
 
-// cpu_register registers[35];
-// register 32 is HI, register 33 is LO, register 34 is PC
-// int memory[4 * 4096];
-
 class MipsEmulator{
     public:
         int8_t memory[4 * 4096];
-        cpu_register registers[35];
+        cpu_register registers[35]; // register 32 is HI, register 33 is LO, register 34 is PC
         bitset<32> current_binary_instruction;
         MIPS_instruction MIPS_current_instruction;
 
@@ -70,21 +64,13 @@ class MipsEmulator{
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
             execute_instruction(MIPS_current_instruction);
-
-            cout << "Instruction Rs: " << MIPS_current_instruction.rs << " " << registers[MIPS_current_instruction.rs].value << endl;
-            cout << "Instruction Rt: " << MIPS_current_instruction.rt << " " << registers[MIPS_current_instruction.rt].value << endl;
-            cout << "Instruction Rd: " << MIPS_current_instruction.rd << " " <<registers[MIPS_current_instruction.rd].value << endl;
-            cout << "Instruction Shamt: " << MIPS_current_instruction.shamt << endl;
-            cout << "Instruction Imm: " << MIPS_current_instruction.imm << endl;
-            cout << "Instruction Address: " << MIPS_current_instruction.address << endl;
-            
             registers[34].value += 4;
         }
+        registers[34].value +=4; //We do this because the while loop will stop when the PC is at the last instruction, so we need to increment it one more time
     }
 
     bitset<32> get_instruction_from_memory(int address){
         bitset<32> instruction;
-         
         uint8_t byte1 = memory[address];
         uint8_t byte2 = memory[address+1];
         uint8_t byte3 = memory[address+2];
@@ -106,7 +92,6 @@ class MipsEmulator{
         else{
             cout << "Instruction not found" << endl;
         }
-        
     }
 
     void load_instructions_in_memory(FILE *program_file){
@@ -149,8 +134,6 @@ class MipsEmulator{
         fseek(file, 0L, SEEK_END);
         long int sz = ftell(file);
         fseek(file, 0, SEEK_SET);
-
-        // fclose(file);
         return sz;
     }
 
@@ -161,3 +144,5 @@ class MipsEmulator{
         
     }
 };
+
+

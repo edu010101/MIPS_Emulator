@@ -8,7 +8,7 @@ struct MIPS_instruction{
         int rt = -1;
         int rs = -1;
         int shamt = -1;
-        int imm = -1;
+        int16_t imm = -1;
         int address = -1;
 };
 
@@ -30,9 +30,8 @@ MIPS_instruction bin_to_MIPS_I(bitset<32> bin_instruction){
     opcode = (bin_instruction >> 26).to_ulong();
     instruction.rs = ((bin_instruction << 6) >> 27).to_ulong();
     instruction.rt = ((bin_instruction << 11) >> 27).to_ulong();
+
     instruction.imm = static_cast<int>(((bin_instruction << 16) >> 16).to_ulong());
-    cout << "imm: " << bin_instruction<< "\n";
-    // instruction.imm = ((bin_instruction << 16) >> 16).to_ulong();
     instruction.instruction_id = opcode + 100;
     return instruction;
 }

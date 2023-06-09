@@ -7,7 +7,9 @@ void syscal(MIPS_instruction instruction, cpu_register *registers){
         cout << registers[4].value;
     }
     else if (registers[2].value == 4){
-        cout << (char *) &memory[registers[4].value];
+        cout << "CHAMOU SYCALL: " << registers[4].value << " v0: " << registers[2].value << endl;
+        // cout << (char *) &memory[registers[4].value] << endl;
+        cout << memory[registers[4].value] << endl;
     }
     else if (registers[2].value == 5){
         cin >> registers[2].value;
