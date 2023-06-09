@@ -147,16 +147,43 @@ class MipsEmulator{
     }
 
     void print_memory(){
-        for (int i = 0; i < 4 * 4096; i+=4){
+        for (int i = 0; i < 4 * 4096; i+=16){
 
             // make all the hexas printed as 8 digits
-            cout << "Mem[" << setfill('0') << setw(8) << hex << i << "]\t";
-            cout << setfill('0') << setw(2) << hex << int(memory[i]) << "\t";
-            cout << setfill('0') << setw(2) << hex << int(memory[i+1]) << "\t";
-            cout << setfill('0') << setw(2) << hex << int(memory[i+2]) << "\t";
-            cout << setfill('0') << setw(2) << hex << int(memory[i+3]) << "\t";
-            cout << endl;
+            //cout << "Mem[0x" << setfill('0') << setw(8) << hex << i << "]\t";
+            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i]) << "\t";
+            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i+4]) << "\t";
+            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i+8]) << "\t";
+            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i+12]) << "\t";
+            //cout << endl;
             // printf("Mem[0x%08x] 0x%02x \t 0x%02x \t 0x%02x \t 0x%02x\n", i, memory[i], memory[i+1], memory[i+2], memory[i+3]);
+            //cout << i << "\t";
+            //cout << int(memory[i]) << "\t";
+            //cout << int(memory[i+4]) << "\t";
+            //cout << int(memory[i+8]) << "\t";
+            //cout << int(memory[i+12]) << "\t";
+            //cout << endl;
+
+            uint8_t byte1 = memory[i];
+            uint8_t byte2 = memory[i+1];
+            uint8_t byte3 = memory[i+2];
+            uint8_t byte4 = memory[i+3];
+            uint8_t byte5 = memory[i+4];
+            uint8_t byte6 = memory[i+5];
+            uint8_t byte7 = memory[i+6];
+            uint8_t byte8 = memory[i+7];
+            uint8_t byte9 = memory[i+8];
+            uint8_t byte10 = memory[i+9];
+            uint8_t byte11 = memory[i+10];
+            uint8_t byte12 = memory[i+11];
+            uint8_t byte13 = memory[i+12];
+            uint8_t byte14 = memory[i+13];
+            uint8_t byte15 = memory[i+14];
+            uint8_t byte16 = memory[i+15];
+            
+            //printf("first word: 0x%x%x%x%x\n", byte4, byte3, byte2, byte1);
+            printf("Mem[0x%08x] 0x%02x%02x%02x%02x \t 0x%02x%02x%02x%02x \t 0x%02x%02x%02x%02x \t 0x%02x%02x%02x%02x\n", i, byte4, byte3, byte2, byte1, byte8, byte7, byte6, byte5, byte12, byte11, byte10, byte9, byte16, byte15, byte14, byte13);
+
         }
         
     }
