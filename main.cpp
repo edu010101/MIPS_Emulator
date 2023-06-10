@@ -3,10 +3,18 @@
 #include "emulator.cpp" 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-    FILE *text_file = fopen("demo_text.bin", "rb");
-    FILE *data_file = fopen("demo_data.bin", "rb");
+    const char* arquivo_binario1 = argv[1];
+    const char* arquivo_binario2 = argv[2];
+
+    if (argc != 3) {
+        cout << "Erro: numero de argumentos invalido.\n";
+        return 1;
+    }
+
+    FILE *text_file = fopen(arquivo_binario1, "rb");
+    FILE *data_file = fopen(arquivo_binario2, "rb");
     bitset<32> current_instruction;
     MIPS_instruction MIPS_current_instruction;
 
