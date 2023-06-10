@@ -1,0 +1,4 @@
+/home/eduardo/Desktop/albertotablet/CMakeFiles/emulador.dir
+/home/eduardo/Desktop/albertotablet/CMakeFiles/run.dir
+/home/eduardo/Desktop/albertotablet/CMakeFiles/edit_cache.dir
+/home/eduardo/Desktop/albertotablet/CMakeFiles/rebuild_cache.dir

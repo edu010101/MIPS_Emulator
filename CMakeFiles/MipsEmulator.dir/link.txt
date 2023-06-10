@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/MipsEmulator.dir/main.cpp.o -o MipsEmulator 

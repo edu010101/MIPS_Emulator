@@ -8,7 +8,6 @@
 #include "data_instructions.cpp"
 using namespace std;
 
-// map that has an int as a key and a function pointer as a value
 map<int8_t, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions = {
     {32, add},
     {108, addi},
@@ -39,7 +38,7 @@ map<int8_t, void (*)(MIPS_instruction, cpu_register *)> reg_to_reg_instructions 
 
 map<int8_t, void (*)(MIPS_instruction, cpu_register *, int8_t *)> reg_to_mem_instructions = {
     {135, lw},
-    {43, lh}, ////??????????????????????////
+    {43, lh}, 
     {132, lb},
     {143, sw},
     {140, sb},
@@ -61,18 +60,17 @@ class MipsEmulator{
 
     void run_program(){    
         while (registers[2].value != 10 && registers[34].value < 4 * 4096){
-            // printf("PC: %d\n", registers[34].value);
             current_binary_instruction = get_instruction_from_memory(registers[34].value);
             MIPS_current_instruction = bin_to_MIPS(current_binary_instruction);
             execute_instruction(MIPS_current_instruction);
             registers[34].value += 4;
-
-            // cout << "Instruction Rs: " << MIPS_current_instruction.rs << " " << registers[MIPS_current_instruction.rs].value << endl;
-            // cout << "Instruction Rt: " << MIPS_current_instruction.rt << " " << registers[MIPS_current_instruction.rt].value << endl;
-            // cout << "Instruction Rd: " << MIPS_current_instruction.rd << " " <<registers[MIPS_current_instruction.rd].value << endl;
-            // cout << "Instruction Shamt: " << MIPS_current_instruction.shamt << endl;
-            // cout << "Instruction Imm: " << MIPS_current_instruction.imm << endl;
-            // cout << "Instruction Address: " << MIPS_current_instruction.address << endl;
+            //cout << "Instruction ID: " << MIPS_current_instruction.instruction_id << endl;
+            //cout << "Instruction Rs: " << MIPS_current_instruction.rs << " " << registers[MIPS_current_instruction.rs].value << endl;
+            ////cout << "Instruction Rt: " << MIPS_current_instruction.rt << " " << registers[MIPS_current_instruction.rt].value << endl;
+            //cout << "Instruction Rd: " << MIPS_current_instruction.rd << " " <<registers[MIPS_current_instruction.rd].value << endl;
+            //cout << "Instruction Shamt: " << MIPS_current_instruction.shamt << endl;
+            //cout << "Instruction Imm: " << MIPS_current_instruction.imm << endl;
+            //cout << "Instruction Address: " << MIPS_current_instruction.address << endl;
             
         }
         registers[34].value +=4; //We do this because the while loop will stop when the PC is at the last instruction, so we need to increment it one more time
@@ -112,23 +110,16 @@ class MipsEmulator{
     }
 
     void populate_registers(){
-        for (int i = 0; i < 35; i++){
-            
+        for (int i = 0; i < 35; i++){    
             registers[i].name = "$" + to_string(i);
             registers[i].value = 0;
-            
-            // else if (i == 32){
-            //     registers[i].name = "HI";
-            //     registers[i].value = 0;
-            // }
-            // else if (i == 33){
-            //     registers[i].name = "LO";
-            //     registers[i].value = 0;
-            // }
-            // else if (i == 34){
-            //     registers[i].name = "PC";
-            //     registers[i].value = 0;
-            // }
+
+            if (i == 29){
+                registers[i].value = 0x00003ffc;
+            }
+            else if (i==28){
+                registers[i].value = 0x1800;
+            }
         }
         registers[-1].value = 0;
     }
@@ -148,22 +139,6 @@ class MipsEmulator{
 
     void print_memory(){
         for (int i = 0; i < 4 * 4096; i+=16){
-
-            // make all the hexas printed as 8 digits
-            //cout << "Mem[0x" << setfill('0') << setw(8) << hex << i << "]\t";
-            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i]) << "\t";
-            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i+4]) << "\t";
-            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i+8]) << "\t";
-            //cout << "0x"<< setfill('0') << setw(8) << hex << int(memory[i+12]) << "\t";
-            //cout << endl;
-            // printf("Mem[0x%08x] 0x%02x \t 0x%02x \t 0x%02x \t 0x%02x\n", i, memory[i], memory[i+1], memory[i+2], memory[i+3]);
-            //cout << i << "\t";
-            //cout << int(memory[i]) << "\t";
-            //cout << int(memory[i+4]) << "\t";
-            //cout << int(memory[i+8]) << "\t";
-            //cout << int(memory[i+12]) << "\t";
-            //cout << endl;
-
             uint8_t byte1 = memory[i];
             uint8_t byte2 = memory[i+1];
             uint8_t byte3 = memory[i+2];
@@ -180,8 +155,6 @@ class MipsEmulator{
             uint8_t byte14 = memory[i+13];
             uint8_t byte15 = memory[i+14];
             uint8_t byte16 = memory[i+15];
-            
-            //printf("first word: 0x%x%x%x%x\n", byte4, byte3, byte2, byte1);
             printf("Mem[0x%08x] 0x%02x%02x%02x%02x \t 0x%02x%02x%02x%02x \t 0x%02x%02x%02x%02x \t 0x%02x%02x%02x%02x\n", i, byte4, byte3, byte2, byte1, byte8, byte7, byte6, byte5, byte12, byte11, byte10, byte9, byte16, byte15, byte14, byte13);
 
         }

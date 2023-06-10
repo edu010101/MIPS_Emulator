@@ -5,8 +5,8 @@ using namespace std;
 
 int main()
 {
-    FILE *text_file = fopen("bubble_text.bin", "rb");
-    FILE *data_file = fopen("bubble_data.bin", "rb");
+    FILE *text_file = fopen("demo_text.bin", "rb");
+    FILE *data_file = fopen("demo_data.bin", "rb");
     bitset<32> current_instruction;
     MIPS_instruction MIPS_current_instruction;
 
@@ -17,10 +17,8 @@ int main()
 
     MipsEmulator emulator(text_file, data_file);
 
-    emulator.run_program();
-
-    // emulator.get_instruction_from_memory(45);
-    
+    emulator.run_program();    
+    cout << endl;
     emulator.print_registers();
     emulator.print_memory();
 
