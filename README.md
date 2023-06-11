@@ -1,5 +1,3 @@
-#escreva com uma decoracao binitinha em html um titulo de "Tutorial de uso MipsEmulator"
-
 <h1 align="center">Tutorial de uso MipsEmulator</h1>
 
 Para usar o MipsEmulator, você precisa ter o cmake e o g++ instalados em sua máquina.
@@ -16,8 +14,15 @@ Mais do que isso, é possivel emular e jogar jogos em embarcados como carros, ce
 
 
 <h2 align="center">Como usar</h2>
-Basta você executar o arquivoMipsEmulator, que é um CMake, para isso basta executar os seguintes comandos:
+Basta você executar o arquivoMipsEmulator, que é um CMake, para isso é necessário executar o seguinte comando:
 
 ```bash
 ./emulador text.bin data.bin > saida.txt
+```
+Observação: O nome dos arquivos "text.bin" e "data.bin" devem ser modificados de acordo com o código que se deseja executar.
+<\n> 
+Por exemplo, para rodar a demo utiliza-se o seguinte comando:
+
+```bash
+./emulador demo_text.bin demo_data.bin > saida.txt 
 ```
