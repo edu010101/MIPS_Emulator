@@ -19,7 +19,8 @@ Basta você executar o arquivoMipsEmulator, que é um CMake, para isso é necess
 ```bash
 ./emulador text.bin data.bin > saida.txt
 ```
-Observação: O nome dos arquivos "text.bin" e "data.bin" devem ser modificados de acordo com o código que se deseja executar.<br \>
+Observação: O nome dos arquivos "text.bin" e "data.bin" devem ser modificados de acordo com o código que se deseja executar.  
+
 Por exemplo, para executar a demo utiliza-se o seguinte comando:
 
 ```bash
