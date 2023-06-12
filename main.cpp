@@ -32,11 +32,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.instruction_id << "\n";
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.rd << "\n";
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.rt << "\n";
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.rs << "\n";
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.shamt << "\n";
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.imm << "\n";
-// cout << "intrucao[" << i << "]= " << MIPS_current_instruction.address << "\n";
